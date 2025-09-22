@@ -150,7 +150,7 @@ export default function TeamPage() {
           
           <h1 className="text-4xl font-bold text-white font-handwriting text-center mt-1 relative z-10">Our Team</h1>
           <p className="text-amber-100 text-center mt-2 relative z-10">
-            Meet the amazing team behind this VPS and Notes Mading application
+            Meet the amazing team behind this  Notes Mading application
           </p>
           
           {/* Decorative ribbon */}

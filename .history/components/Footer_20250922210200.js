@@ -77,7 +77,7 @@ export default function Footer() {
             </div>
             
             <div className="text-gray-500 text-xs sm:text-sm">
-              <p>© {new Date().getFullYear()} Kelompok 4 Kelas C</p>
+              <p>© {new Date().getFullYear()} Notes Mading</p>
               <p className="flex items-center">
                 <FaCode className="mr-1" /> 
                 <span>Made with Next.js & MongoDB</span>

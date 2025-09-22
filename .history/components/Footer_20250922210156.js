@@ -56,7 +56,7 @@ export default function Footer() {
               <span>dan</span> 
               <FaCoffee className="text-amber-700 inline-block mx-1" /> 
               <span>oleh</span> 
-              <span className="font-semibold">Kelompok 4 Kelas C</span>
+              <span className="font-semibold">Kelomp</span>
             </p>
           </div>
           
@@ -77,7 +77,7 @@ export default function Footer() {
             </div>
             
             <div className="text-gray-500 text-xs sm:text-sm">
-              <p>© {new Date().getFullYear()} Kelompok 4 Kelas C</p>
+              <p>© {new Date().getFullYear()} Notes Mading</p>
               <p className="flex items-center">
                 <FaCode className="mr-1" /> 
                 <span>Made with Next.js & MongoDB</span>

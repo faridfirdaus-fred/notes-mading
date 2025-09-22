@@ -53,7 +53,7 @@ const Decoration = ({ type, style }) => {
         <GiNotebook size={style.size || 24} className={`${style.color || 'text-amber-800'} drop-shadow-md`} />
       )}
       {type === 'push-pin' && (
-        <FaMapPin size={style.size || 20} className={`${style.color || 'text-red-500'} drop-shadow-md`} />
+        <GiPushPin size={style.size || 20} className={`${style.color || 'text-red-500'} drop-shadow-md`} />
       )}
     </div>
   );
@@ -150,7 +150,7 @@ export default function TeamPage() {
           
           <h1 className="text-4xl font-bold text-white font-handwriting text-center mt-1 relative z-10">Our Team</h1>
           <p className="text-amber-100 text-center mt-2 relative z-10">
-            Meet the amazing team behind this VPS and Notes Mading application
+            Meet the amazing team behind this Notes Mading application
           </p>
           
           {/* Decorative ribbon */}

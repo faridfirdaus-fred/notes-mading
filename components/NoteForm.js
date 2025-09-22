@@ -86,21 +86,27 @@ export default function NoteForm({ note, type }) {
     
     try {
       if (type === 'Create') {
-        await axios.post('/api/notes', {
+        console.log('Creating new note with data:', { ...data, imageUrl: imageUrl.substring(0, 30) + '...' });
+        const response = await axios.post('/api/notes', {
           ...data,
           imageUrl,
         });
+        console.log('Create note response:', response.data);
       } else {
-        await axios.put(`/api/notes/${note.id}`, {
+        // Pastikan note._id (id dari MongoDB) tersedia dan digunakan
+        console.log('Updating note with ID:', note._id);
+        const response = await axios.put(`/api/notes/${note._id}`, {
           ...data,
           imageUrl,
         });
+        console.log('Update note response:', response.data);
       }
       
       router.push('/');
       router.refresh();
     } catch (error) {
       console.error('Error submitting form:', error);
+      alert(`Error: ${error.response?.data?.error || error.message || 'Unknown error occurred'}`);
     } finally {
       setIsSubmitting(false);
     }

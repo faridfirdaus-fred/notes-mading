@@ -5,7 +5,7 @@ import Note from '@/models/Note';
 // GET all notes
 export async function GET() {
   try {
-    console.log('API: Fetching all notes');
+    console.log('API: Fetching allz notes');
     await connectToDatabase();
     const notes = await Note.find({}).sort({ createdAt: -1 });
     console.log(`API: Found ${notes.length} notes`);
@@ -20,7 +20,7 @@ export async function GET() {
 export async function POST(request) {
   try {
     const { name, description, imageUrl } = await request.json();
-    console.log('API: Creating new note');
+    console.log('API: Creating new note with data:', { name, imageUrl: imageUrl.substring(0, 30) + '...' });
     
     await connectToDatabase();
     
@@ -33,6 +33,7 @@ export async function POST(request) {
     console.log('API: Note created successfully');
     return NextResponse.json(note, { status: 201 });
   } catch (error) {
+    console.error('API Error creating note:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState, use } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import NoteForm from '@/components/NoteForm';
+import { use } from 'react';
 
 export default function EditNote({ params }) {
   const router = useRouter();
@@ -54,10 +55,10 @@ export default function EditNote({ params }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Edit Note</h1>
+        <h1 className="text-3xl font-bold text-white">Edit Note</h1>
         <button 
           onClick={() => router.back()} 
-          className="mt-2 text-indigo-600 hover:text-indigo-800"
+          className="mt-2 text-gray-100"
         >
           &larr; Back
         </button>

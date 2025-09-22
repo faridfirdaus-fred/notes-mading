@@ -1,0 +1,142 @@
+'use client';
+
+import { useState } from 'react';
+import MemberCard from '@/components/MemberCard';
+import { FaThumbtack, FaPaperclip } from 'react-icons/fa';
+
+const Decoration = ({ type, style }) => {
+  return (
+    <div className="absolute" style={style}>
+      {type === 'pin' && (
+        <FaThumbtack size={18} className="text-red-500 drop-shadow-md" />
+      )}
+      {type === 'paperclip' && (
+        <FaPaperclip size={24} className="text-gray-400 drop-shadow-md" />
+      )}
+      {type === 'note' && (
+        <div className="w-16 h-16 bg-yellow-200 rotate-6 shadow-md p-2">
+          <p className="text-xs font-handwriting text-gray-700">Important info!</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default function TeamPage() {
+  // Data contoh untuk anggota kelompok (ganti dengan data sebenarnya nanti)
+  const [members] = useState([
+    {
+      id: 1,
+      name: "Member Name 1",
+      npm: "NPM12345678",
+      photoUrl: "/placeholder-profile.svg",
+      role: "Leader"
+    },
+    {
+      id: 2,
+      name: "Member Name 2",
+      npm: "NPM23456789",
+      photoUrl: "/placeholder-profile.svg",
+      role: "Frontend Developer"
+    },
+    {
+      id: 3,
+      name: "Member Name 3",
+      npm: "NPM34567890",
+      photoUrl: "/placeholder-profile.svg",
+      role: "Backend Developer"
+    },
+    {
+      id: 4,
+      name: "Member Name 4",
+      npm: "NPM45678901",
+      photoUrl: "/placeholder-profile.svg",
+      role: "UI/UX Designer"
+    },
+    {
+      id: 5,
+      name: "Member Name 5",
+      npm: "NPM56789012",
+      photoUrl: "/placeholder-profile.svg",
+      role: "QA Tester"
+    }
+  ]);
+
+  // Decorations
+  const decorations = [
+    { type: 'pin', style: { top: '5%', left: '5%' } },
+    { type: 'pin', style: { top: '10%', right: '8%' } },
+    { type: 'paperclip', style: { bottom: '15%', left: '10%', transform: 'rotate(45deg)' } },
+    { type: 'paperclip', style: { top: '20%', right: '15%', transform: 'rotate(-20deg)' } },
+    { type: 'note', style: { bottom: '12%', right: '8%' } },
+  ];
+
+  return (
+    <div className="min-h-screen py-8 relative">
+      <div className="container mx-auto px-4">
+        {/* Header with decorative styling */}
+        <div className="relative bg-amber-800 rounded-lg p-6 mb-8 shadow-lg">
+          {/* Decorative pin */}
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <FaThumbtack size={28} className="text-red-600 drop-shadow-lg" />
+          </div>
+          
+          <h1 className="text-4xl font-bold text-white font-handwriting text-center mt-1">Our Team</h1>
+          <p className="text-amber-100 text-center mt-2">
+            Meet the amazing team behind this Notes Mading application
+          </p>
+        </div>
+
+        {/* Bulletin Board/Mading Style */}
+        <div className="relative bg-amber-900 border-8 border-amber-950 rounded-md p-8 shadow-2xl">
+          {/* Cork Board Texture */}
+          <div 
+            className="bg-cork bg-repeat rounded-md p-8 relative" 
+            style={{ 
+              backgroundImage: "url('https://www.transparenttextures.com/patterns/cork-board.png')",
+              minHeight: '600px'
+            }}
+          >
+            {/* Decorative elements */}
+            {decorations.map((deco, index) => (
+              <Decoration key={index} type={deco.type} style={deco.style} />
+            ))}
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center relative z-10">
+              {members.map((member) => (
+                <MemberCard key={member.id} member={member} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* About section with paper styling */}
+        <div className="mt-8 relative">
+          <div className="bg-white rounded-md p-6 shadow-lg transform -rotate-1">
+            <div className="absolute -top-3 left-6">
+              <FaThumbtack size={24} className="text-blue-500 drop-shadow-md" />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-gray-800 font-handwriting mb-4">About This Project</h2>
+            
+            <p className="text-gray-700 font-handwriting">
+              This Notes Mading application was created as a group project for our class. 
+              It&apos;s a digital bulletin board where users can post notes with images, similar to how we might pin papers to a physical bulletin board.
+            </p>
+            
+            <div className="mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-400 rounded">
+              <p className="text-gray-700 font-handwriting">
+                <span className="font-bold">Tech Stack:</span> Next.js for the frontend, MongoDB for the database, and Cloudinary for image storage.
+              </p>
+            </div>
+            
+            {/* Paper clip decoration */}
+            <div className="absolute -top-4 right-6 transform rotate-12">
+              <FaPaperclip size={30} className="text-gray-400" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

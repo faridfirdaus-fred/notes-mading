@@ -1,6 +1,11 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { Kalam } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import BackgroundEffects from "@/components/BackgroundEffects";
+import Footer from "@/components/Footer";
+import Clock from "@/components/Clock";
+import BoardDecorations from "@/components/BoardDecorations";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,9 +23,6 @@ const handwriting = Kalam({
   subsets: ["latin"],
 });
 
-// Menggunakan tahun yang konsisten antara server dan client
-const currentYear = 2025;
-
 export const metadata = {
   title: "Notes Mading - Simple CRUD App",
   description: "A simple notes board application built with Next.js, Tailwind CSS, MongoDB and Cloudinary",
@@ -30,16 +32,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${handwriting.variable} antialiased bg-gray-50 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${handwriting.variable} antialiased min-h-screen`}
         style={{ marginRight: "0px" }}
       >
-        <div className="flex flex-col min-h-screen">
+        <BackgroundEffects />
+        <BoardDecorations count={10} />
+        <div className="flex flex-col min-h-screen relative z-10">
+          <Navbar />
+          {/* Pindahkan jam ke bawah navbar dengan posisi fixed */}
+          <div className="fixed top-20 right-4 z-20 hidden md:block">
+            <Clock />
+          </div>
           <main className="flex-grow">
             {children}
           </main>
-          <footer className="py-6 text-center text-gray-500 text-sm">
-            <p>© {currentYear} Notes Mading. All rights reserved.</p>
-          </footer>
+          <Footer />
         </div>
       </body>
     </html>

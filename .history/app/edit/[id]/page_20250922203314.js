@@ -33,14 +33,7 @@ export default function EditNote({ params }) {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <div className="bg-amber-700/70 rounded-lg shadow-inner border-2 border-amber-800 p-8 max-w-md mx-auto">
-          <div className="animate-pulse flex flex-col items-center">
-            <div className="rounded-full bg-amber-600 h-12 w-12 mb-4"></div>
-            <div className="h-4 bg-amber-600 rounded w-3/4 mb-2"></div>
-            <div className="h-4 bg-amber-600 rounded w-1/2"></div>
-          </div>
-          <p className="mt-4 text-amber-100">Loading note data...</p>
-        </div>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -48,21 +41,13 @@ export default function EditNote({ params }) {
   if (error || !note) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
-        <div className="bg-red-700/70 rounded-lg shadow-inner border-2 border-red-800 p-8 max-w-md mx-auto">
-          <div className="text-red-100 mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-xl font-bold">{error || 'Note not found'}</p>
-            <p className="mt-2 text-sm">The note you&apos;re looking for might have been deleted or doesn&apos;t exist.</p>
-          </div>
-          <button 
-            onClick={() => router.push('/')} 
-            className="mt-4 bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-700 transition-all"
-          >
-            Go Back Home
-          </button>
-        </div>
+        <p className="text-red-500">{error || 'Note not found'}</p>
+        <button 
+          onClick={() => router.push('/')} 
+          className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
+        >
+          Go Back Home
+        </button>
       </div>
     );
   }

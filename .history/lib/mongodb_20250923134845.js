@@ -56,23 +56,8 @@ async function connectToDatabase() {
     cached.conn = await cached.promise;
     return cached.conn;
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
-    // Clear the failed promise so a new one can be created on next request
     cached.promise = null;
-    
-    // Return a fallback connection or throw a more descriptive error
-    if (process.env.NODE_ENV !== 'production') {
-      console.warn('MONGODB CONNECTION FAILED. Using in-memory fallback for development.');
-      // In development, we can return a mock connection or continue with limited functionality
-      return { 
-        connection: { db: null },
-        isConnected: false,
-        isFallback: true
-      };
-    }
-    
-    // In production, we should still throw but with more context
-    throw new Error(`Failed to connect to MongoDB: ${error.message}`);
+    throw error;
   }
 }
 

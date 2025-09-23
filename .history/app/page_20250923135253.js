@@ -1,12 +1,9 @@
-import Link from "next/link";
+﻿import Link from "next/link";
+import NoteCard from "@/components/NoteCard";
 import connectToDatabase from "@/lib/mongodb";
 import Note from "@/models/Note";
 import { FaPaperclip } from 'react-icons/fa';
 import { BsStickiesFill } from 'react-icons/bs';
-import NoteCard from "@/components/NoteCard";
-import { NotesGridClient } from "@/components/NotesGridClient";
-
-export const revalidate = 0; // Revalidate halaman setiap kali dikunjungi
 
 async function getNotes() {
   try {
@@ -120,15 +117,12 @@ export default async function Home() {
         {notes.length === 0 ? (
           <div className="text-center py-16 bg-amber-700/70 rounded-lg shadow-inner border-2 border-amber-800 relative z-10">
             <h2 className="text-2xl font-semibold text-amber-50 mb-4 font-handwriting">No notes yet</h2>
-            <p className="text-amber-100 mb-8">
-              This bulletin board is empty. Start by adding your first note!
-            </p>
+            <p className="text-amber-100 mb-8">Create your first note to get started!</p>
             <Link 
               href="/create" 
-              className="bg-amber-600 hover:bg-amber-500 transition-all text-white px-6 py-3 rounded-md shadow-md inline-flex items-center"
+              className="bg-amber-600 text-white px-6 py-3 rounded-md hover:bg-amber-700 transition-colors inline-block shadow-md"
             >
-              <BsStickiesFill className="mr-2" />
-              Create First Note
+              Create Note
             </Link>
           </div>
         ) : (
@@ -141,24 +135,11 @@ export default async function Home() {
                 minHeight: '500px'
               }}
             >
-              {/* Mode Server-Rendered */}
+              {/* Grid untuk menampilkan notes */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
                 {notes.map((note) => (
                   <NoteCard key={note.id} note={note} />
                 ))}
-              </div>
-              
-              {/* Tombol refresh manual */}
-              <div className="mt-8 text-center">
-                <Link 
-                  href="/?refresh=true"
-                  className="bg-amber-600/70 hover:bg-amber-600 text-white px-4 py-2 rounded-md inline-flex items-center transition-all"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  Refresh Notes
-                </Link>
               </div>
             </div>
           </div>

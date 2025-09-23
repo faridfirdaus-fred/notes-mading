@@ -54,7 +54,7 @@ export default function EditNote({ params }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <p className="text-xl font-bold">{error || 'Note not found'}</p>
-            <p className="mt-2 text-sm">The note you&apos;re looking for might have been deleted or doesn&apos;t exist.</p>
+            <p className="mt-2 text-sm">The note you're looking for might have been deleted or doesn't exist.</p>
           </div>
           <button 
             onClick={() => router.push('/')} 

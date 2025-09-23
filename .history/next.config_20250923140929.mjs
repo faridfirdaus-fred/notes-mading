@@ -14,9 +14,19 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'presumably-handed-tana.ngrok-free.dev',
+        hostname: '*.ngrok-free.app',
         pathname: '/**',
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ngrok-free.dev',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ngrok.io',
+        pathname: '/**',
+      },
     ],
   },
   // Disable response compression for better proxy handling
@@ -42,6 +52,22 @@ const nextConfig = {
   // Disable Next.js caching in production
   experimental: {
     disableOptimizedLoading: true,
+  },
+  // Pengaturan tambahan untuk ngrok
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/api/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'x-forwarded-proto',
+            value: 'https',
+          },
+        ],
+      },
+    ];
   },
 };
 

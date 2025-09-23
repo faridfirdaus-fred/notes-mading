@@ -12,11 +12,7 @@ const nextConfig = {
         hostname: 'placehold.co',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: 'presumably-handed-tana.ngrok-free.dev',
-        pathname: '/**',
-      }
+      {}
     ],
   },
   // Disable response compression for better proxy handling

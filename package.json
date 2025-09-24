@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check-cloudinary": "node scripts/check-cloudinary-config.js",
+    "dev:clear": "rimraf .next && next dev --turbopack"
   },
   "dependencies": {
     "axios": "^1.12.2",

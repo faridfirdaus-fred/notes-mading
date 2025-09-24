@@ -33,38 +33,87 @@ export default function NoteForm({ note, type }) {
 
     try {
       setIsUploading(true);
-      console.log('Uploading file:', file.name);
+      console.log('Uploading file:', file.name, 'size:', file.size, 'type:', file.type);
+      
+      // Validasi file sebelum upload
+      if (file.size > 10 * 1024 * 1024) { // 10MB
+        throw new Error('File terlalu besar. Ukuran maksimum adalah 10MB.');
+      }
+      
+      if (!['image/jpeg', 'image/png', 'image/gif', 'image/webp'].includes(file.type)) {
+        throw new Error('Jenis file tidak didukung. Harap unggah file JPEG, PNG, GIF, atau WEBP.');
+      }
       
       // Create a FormData object
       const formData = new FormData();
       formData.append('file', file);
       
-      // Upload melalui API route lokal
-      console.log('Sending file to local API route');
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      // Tambahkan timestamp untuk menghindari cache
+      const timestamp = new Date().getTime();
+      const uploadUrl = `/api/upload?t=${timestamp}`;
       
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Upload response error:', errorText);
-        throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
-      }
+      // Upload melalui API route lokal dengan timeout lebih panjang
+      console.log(`Sending file to local API route: ${uploadUrl}`);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 detik timeout
       
-      const data = await response.json();
-      console.log('Upload successful, received URL:', data.url);
-      
-      if (data.url) {
-        setImageUrl(data.url);
-      } else {
-        throw new Error('No URL returned from upload');
+      try {
+        const response = await fetch(uploadUrl, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            // Tambahkan header khusus untuk membantu debugging
+            'X-Client-Info': 'NoteForm-Upload',
+          },
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          let errorMessage = `Upload failed: ${response.status} ${response.statusText}`;
+          try {
+            // Coba parse respons error sebagai JSON
+            const errorData = await response.json();
+            console.error('Upload response error (JSON):', errorData);
+            errorMessage = errorData.error || errorData.details?.message || errorMessage;
+          } catch (e) {
+            // Jika bukan JSON, baca sebagai teks
+            const errorText = await response.text();
+            console.error('Upload response error (Text):', errorText);
+            errorMessage = errorText || errorMessage;
+          }
+          throw new Error(errorMessage);
+        }
+        
+        const data = await response.json();
+        console.log('Upload successful, received URL:', data.url);
+        
+        if (data.url) {
+          setImageUrl(data.url);
+        } else {
+          throw new Error('No URL returned from upload');
+        }
+      } catch (fetchError) {
+        if (fetchError.name === 'AbortError') {
+          throw new Error('Upload timed out. Please try again with a smaller file or check your connection.');
+        }
+        throw fetchError;
       }
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Failed to upload image. Please try again.');
+      alert(`Failed to upload image: ${error.message}`);
     } finally {
       setIsUploading(false);
+    }
+  }, []);
+  
+  // Tambahkan penanganan khusus untuk deteksi koneksi ngrok
+  useEffect(() => {
+    // Deteksi jika aplikasi berjalan melalui ngrok
+    const hostname = window.location.hostname;
+    if (hostname.includes('ngrok')) {
+      console.log('Detected running through ngrok:', hostname);
     }
   }, []);
   

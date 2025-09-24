@@ -22,8 +22,9 @@ export default function NoteCard({ note }) {
     if (confirm('Are you sure you want to delete this note?')) {
       try {
         await axios.delete(`/api/notes/${note.id}`);
-        // Force a hard refresh of the page
-        window.location.href = '/';
+        // Navigate to home page and refresh data
+        router.push('/');
+        router.refresh();
       } catch (error) {
         console.error('Error deleting note:', error);
         alert('Failed to delete note. Please try again.');

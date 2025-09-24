@@ -3,12 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import NoteForm from '@/components/NoteForm';
+import dynamic from 'next/dynamic';
 import { use } from 'react';
+
+// Import NoteForm dynamically with no SSR to avoid 'T' error during build
+const NoteForm = dynamic(() => import('@/components/NoteForm'), { ssr: false });
 
 export default function EditNote({ params }) {
   const router = useRouter();
-  const { id } = use(params);
+  // Unwrap params using React.use() as recommended by Next.js
+  const unwrappedParams = use(params);
+  const { id } = unwrappedParams;
   
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);

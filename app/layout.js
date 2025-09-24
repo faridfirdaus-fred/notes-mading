@@ -39,20 +39,27 @@ export default function RootLayout({ children }) {
         {/* Script untuk memaksa refresh jika perubahan tidak terlihat */}
         <script dangerouslySetInnerHTML={{
           __html: `
-            // Force refresh if data not updating
-            if (window.location.pathname === '/') {
-              sessionStorage.setItem('lastVisit', Date.now());
-              
-              // Check for stale data
-              window.addEventListener('focus', function() {
-                const lastVisit = sessionStorage.getItem('lastVisit');
-                const now = Date.now();
-                // If it's been more than 30 seconds since last visit, refresh
-                if (lastVisit && (now - lastVisit > 30000)) {
-                  sessionStorage.setItem('lastVisit', now);
-                  window.location.reload();
+            // Check if browser environment
+            if (typeof window !== 'undefined') {
+              // Force refresh if data not updating
+              if (window.location.pathname === '/') {
+                try {
+                  sessionStorage.setItem('lastVisit', Date.now());
+                  
+                  // Check for stale data
+                  window.addEventListener('focus', function() {
+                    const lastVisit = sessionStorage.getItem('lastVisit');
+                    const now = Date.now();
+                    // If it's been more than 30 seconds since last visit, refresh
+                    if (lastVisit && (now - lastVisit > 30000)) {
+                      sessionStorage.setItem('lastVisit', now);
+                      window.location.reload();
+                    }
+                  });
+                } catch (e) {
+                  console.log('Session storage not available');
                 }
-              });
+              }
             }
           `
         }} />

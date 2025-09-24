@@ -1,7 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import NoteForm from '@/components/NoteForm';
+import dynamic from 'next/dynamic';
+
+// Import NoteForm dynamically with no SSR to avoid 'T' error during build
+const NoteForm = dynamic(() => import('@/components/NoteForm'), { ssr: false });
 
 export default function CreateNote() {
   const router = useRouter();

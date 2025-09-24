@@ -1,0 +1,25 @@
+version: '3.8'
+
+# Konfigurasi khusus untuk development
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    restart: unless-stopped
+
+  # Konfigurasi khusus untuk MongoDB development
+  mongo:
+    command: --wiredTigerCacheSizeGB 0.5 --logpath /dev/null  # Disable MongoDB logs untuk development
+    environment:
+      - MONGO_INITDB_DATABASE=notes_mading
+      # Tambahkan user dan password jika dibutuhkan untuk development
+      #- MONGO_INITDB_ROOT_USERNAME=dev_user
+      #- MONGO_INITDB_ROOT_PASSWORD=dev_password

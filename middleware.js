@@ -21,6 +21,18 @@ export function middleware(request) {
   response.headers.set('Expires', '0');
   response.headers.set('X-Content-Type-Options', 'nosniff');
   
+  // Deteksi dan tangani Ngrok domain atau proxy
+  const hostname = request.headers.get('host') || '';
+  if (hostname.includes('ngrok') || request.headers.get('x-forwarded-proto')) {
+    // Tambahkan header untuk ngrok dan proxies
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    
+    // Pastikan SSE (Server-Sent Events) dan WebSocket berfungsi
+    response.headers.set('X-Accel-Buffering', 'no');
+  }
+  
   return response;
 }
 

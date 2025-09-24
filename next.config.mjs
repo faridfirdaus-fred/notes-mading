@@ -16,6 +16,16 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'presumably-handed-tana.ngrok-free.dev',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ngrok-free.app',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ngrok.io',
+        pathname: '/**',
       }
     ],
   },

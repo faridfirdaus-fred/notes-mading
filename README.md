@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Notes Mading
 
-## Getting Started
+A collaborative note-sharing web app. Students post short notes to a shared board (a digital *mading*, or wall magazine), attach images, and browse notes from their team.
 
-First, run the development server:
+Notes are stored in MongoDB and images are uploaded to Cloudinary. The whole app is containerized so it can be run with a single command.
+
+## Features
+
+- **Create, edit, and delete notes**
+- **Image attachments** uploaded to Cloudinary
+- **Team page** grouping notes by author
+- **Fresh notes API** for recent posts
+- **Docker Compose setup** bundling the app and MongoDB
+- **Dark, responsive UI** built with Tailwind CSS
+
+## Tech stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js (App Router) |
+| Database | MongoDB with Mongoose |
+| Media | Cloudinary |
+| Styling | Tailwind CSS |
+| Containerization | Docker + Docker Compose |
+
+## Getting started
+
+### With Docker (recommended)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.docker .env
+# fill in your Cloudinary credentials
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app is available at http://localhost:3000.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Local development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+You will need a running MongoDB instance, either local or a MongoDB Atlas cluster.
 
-To learn more about Next.js, take a look at the following resources:
+### Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Variable | Purpose |
+| --- | --- |
+| `MONGODB_URI` | MongoDB connection string |
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
+| `CLOUDINARY_API_KEY` | Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+| `NGROK_AUTHTOKEN` | Optional, for exposing the dev server |
+| `PORT` | Application port, defaults to 3000 |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API routes
 
-## Deploy on Vercel
+| Route | Methods | Description |
+| --- | --- | --- |
+| `/api/notes` | GET, POST | List all notes, create a note |
+| `/api/notes/[id]` | GET, PUT, DELETE | Read, update, delete a single note |
+| `/api/fresh-notes` | GET | Most recent notes |
+| `/api/upload` | POST | Upload an image to Cloudinary |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/
+  api/           # Route handlers (notes, fresh-notes, upload)
+  create/        # Note creation page
+  edit/[id]/     # Note editing page
+  team/          # Team view
+lib/mongodb.js   # Database connection helper
+```
+
+See `DOCKER_GUIDE.md` for container details.
